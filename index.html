@@ -600,7 +600,7 @@
     <div class="max-w-7xl mx-auto">
       <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-14 reveal">
         <div>
-          <div class="eyebrow text-orange mb-4">01 — SELECTED WORK</div>
+          <div class="eyebrow text-orange mb-4 ">01 — SELECTED WORK</div>
           <h2 class="serif text-4xl md:text-6xl font-light">Recent Cuts.</h2>
         </div>
         <p class="text-mute max-w-sm text-sm leading-relaxed">A collection of short-form, long-form and motion projects.
@@ -1099,6 +1099,14 @@
       },
     ];
 
+    /* ============ SCROLL REVEAL ============ */
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) { entry.target.classList.add('in'); observer.unobserve(entry.target); }
+      });
+    }, { threshold: 0.15 });
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
     /* ============ RENDER WORK GRID ============ */
     const grid = document.getElementById('workGrid');
     const sizeClass = { tall: "sm:row-span-2", wide: "lg:col-span-2", normal: "" };
@@ -1146,6 +1154,7 @@
       btn.classList.add('border-orange', 'text-orange');
       renderProjects(btn.dataset.filter);
     });
+    renderProjects("All");
 
     /* ============ MODAL ============ */
     const modal = document.getElementById('modal');
@@ -1199,14 +1208,6 @@
     document.getElementById('modalClose').addEventListener('click', closeModal);
     document.getElementById('modalOverlay').addEventListener('click', closeModal);
     document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
-
-    /* ============ SCROLL REVEAL ============ */
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) { entry.target.classList.add('in'); observer.unobserve(entry.target); }
-      });
-    }, { threshold: 0.15 });
-    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 
     /* ============ TOP SCRUB BAR + TIMECODE ============ */
     const scrubfill = document.getElementById('scrubfill');
